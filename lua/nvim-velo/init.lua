@@ -1,4 +1,4 @@
-local velo = require("nvim-velo.velo")
+local commands = require("nvim-velo.commands")
 local utils = require("nvim-velo.utils")
 
 local M = {}
@@ -48,14 +48,14 @@ end
 
 vim.api.nvim_create_user_command(
 	'VQLServerExec',
-	velo.exec_vql,
+	commands.exec_vql,
 	{desc = 'run the file contents against Velociraptor server'}
 )
 
 vim.api.nvim_create_user_command(
 	'VQLClientExec',
 	function (args)
-		velo.exec_client_vql(args)
+		commands.exec_client_vql(args)
 	end,
 	{
 		nargs = '*',
