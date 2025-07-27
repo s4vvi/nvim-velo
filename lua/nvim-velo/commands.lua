@@ -3,40 +3,7 @@ local vql = require("nvim-velo.vql")
 
 local M = {}
 
-function M.exec_vql()
-	local current_buffer = vim.api.nvim_get_current_buf()
-	local current_window = vim.api.nvim_get_current_win()
-
-	if vim.o.filetype ~= "vql" then
-		utils.err("Can't execute non '*.vql' file.")
-		return
-	end
-
-	local obj = vim.system({
-		"velociraptor",
-		"--api_config",
-		NvimVeloConfig.api_config_path,
-		"query",
-		utils.buffer_to_string(current_buffer),
-		"--format",
-		"jsonl",
-		"-v",
-		"--nobanner",
-	})
-	local result = obj:wait()
-
-	utils.destroy_last_result_windows()
-
-	local o_w, _ = utils.open_result_window(result.stdout, { direction = "horizontal", hl = "json"})
-	local e_w, _ = utils.open_result_window(result.stderr, { direction = "horizontal", hl = "text"})
-
-	NvimVeloState.last_stdout_window = o_w
-	NvimVeloState.last_stderr_window = e_w
-
-	vim.api.nvim_set_current_win(current_window)
-end
-
-function M.exec_client_vql(args)
+function M.exec_vql(args)
 	local allowed_params = { "fqdn", "flow_delete" }
 	local params = utils.parse_kv_params(args.fargs, allowed_params)
 
@@ -72,10 +39,15 @@ function M.exec_client_vql(args)
 
 	utils.destroy_last_result_windows()
 
-	local client_id = vql.get_client_id(params.fqdn)
-	if not client_id then
-		utils.err("Client w/ hostname '" .. params.fqdn .."' not found.")
-		return
+	local client_id
+	if params.fqdn == "server" then
+		client_id = "server"
+	else
+		client_id = vql.get_client_id(params.fqdn)
+		if not client_id then
+			utils.err("Client w/ hostname '" .. params.fqdn .."' not found.")
+			return
+		end
 	end
 
 	local flow = vql.start_flow(

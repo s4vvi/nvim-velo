@@ -47,15 +47,9 @@ function M.setup(config)
 end
 
 vim.api.nvim_create_user_command(
-	'VQLServerExec',
-	commands.exec_vql,
-	{desc = 'run the file contents against Velociraptor server'}
-)
-
-vim.api.nvim_create_user_command(
-	'VQLClientExec',
+	'VeloExec',
 	function (args)
-		commands.exec_client_vql(args)
+		commands.exec_vql(args)
 	end,
 	{
 		nargs = '*',
@@ -63,7 +57,7 @@ vim.api.nvim_create_user_command(
 			local args = { "fqdn=", "flow_delete=" }
 
 			if arg_lead:find('^fqdn=') then
-				return {}
+				return { "server" }
 			end
 
 			if arg_lead:find('^flow_delete=') then

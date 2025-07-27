@@ -7,6 +7,8 @@
 - [ ] Make command's more concise + cleanup.
 - [ ] Refactor utils, mooore files.
 - [ ] Make it so it works w/ plug + test.
+- [ ] Fix config path.
+- [ ] Maybe add loading animation when waiting for result.
 
 **other**
 
