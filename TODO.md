@@ -1,16 +1,10 @@
 # TODO
 
-**pre-v1.0.0**
-
-- [x] Implement client VQL.
-- [x] Make command's more concise + cleanup.
-- [x] Refactor utils, mooore files.
-- [x] Make it so it works w/ plug + test.
-- [x] Fix config path.
-
 **other**
 
-- [ ] Maybe add loading animation when waiting for result.
+- [ ] Introduce result limits
+- [ ] Introduce timeout specification
+- [ ] Maybe add loading animation when waiting for result / or debug.
 - [ ] Add syntax error virtual text?
 - [ ] Implement artifact testing.
     - [ ] Create vim syntax highlight for artifact's (yaml + vql). 
