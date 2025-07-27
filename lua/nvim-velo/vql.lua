@@ -166,6 +166,12 @@ function M.get_client_id(hostname)
 		error('hostname not defined')
 	end
 
+	-- special client ID for server queries
+	-- only problem if hostname is server xD
+	if hostname == "server" then
+		return "server"
+	end
+
 	local result = M.vql_exec(
 		build_vql_get_client_id(hostname)
 	)
@@ -220,10 +226,26 @@ function M.fetch_flow_logs(client_id, flow_id)
 	local logs = M.vql_exec(build_vql_get_flow_logs(client_id, flow_id)).stdout
 
 	-- Parse returned json lines one by one
+	-- For server the keys differ by case
+	-- Dont wat to change the whole json alg.
+	-- ffs. velo.
+	if client_id == "server" then
+		local json_val
+		for line in logs:gmatch("([^\r\n]+)") do
+			json_val = json.parse(line)
+			if json_val then
+				json_val.level = json_val.Level
+				json_val.Level = nil
+				result[#result+1] = json_val
+			end
+		end
+		return result
+	end
+
+	-- Regular json where all keys are lowercase
 	for line in logs:gmatch("([^\r\n]+)") do
 		result[#result+1] = json.parse(line)
 	end
-
 	return result
 end
 

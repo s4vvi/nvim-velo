@@ -1,10 +1,5 @@
 local M = {}
 
-function M.buffer_to_string(buffer)
-	local content = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
-	return table.concat(content, "\n")
-end
-
 function M.trim(s)
   return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
 end
@@ -65,48 +60,6 @@ function M.to_base64(data)
     for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
     return b:sub(c+1,c+1)
   end)..({ '', '==', '=' })[#data%3+1])
-end
-
-function M.destroy_last_result_windows()
-	if NvimVeloState.last_stdout_window ~= nil then
-		if vim.api.nvim_win_is_valid(NvimVeloState.last_stdout_window) then
-			vim.api.nvim_win_close(NvimVeloState.last_stdout_window, true) -- force=true
-		end
-	end
-
-	if NvimVeloState.last_stderr_window ~= nil then
-		if vim.api.nvim_win_is_valid(NvimVeloState.last_stderr_window) then
-			vim.api.nvim_win_close(NvimVeloState.last_stderr_window, true) -- force=true
-		end
-	end
-end
-
-function M.open_result_window(text, options)
-	options = options or {}
-
-	if not options.hl then
-		options.hl = "text"
-	end
-
-	local buffer = vim.api.nvim_create_buf(false, true) -- listed=false, scratch=true
-
-	local window
-	local split
-	if options.direction == "vertical" then
-		split = 'left'
-	else
-		split = 'below'
-	end
-
-	window = vim.api.nvim_open_win(buffer, true, {
-		split = split,
-		win = 0
-	})
-
-	vim.api.nvim_paste(M.trim(text) or "", false, -1)
-	vim.cmd("set syntax=" .. options.hl)
-
-	return window, buffer
 end
 
 return M
