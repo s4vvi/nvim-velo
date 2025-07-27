@@ -23,7 +23,7 @@ function M.setup(config)
 	end
 
 	if not utils.file_exists(config["api_config_path"]) then
-		local full_path = os.getenv("PWD") .. "/" .. config["api_config_path"]
+		local full_path = config["api_config_path"]
 		utils.err("Failed to open API config file '" .. full_path .. "'")
 		return
 	end
