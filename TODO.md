@@ -6,7 +6,7 @@
 - [x] Make command's more concise + cleanup.
 - [x] Refactor utils, mooore files.
 - [ ] Make it so it works w/ plug + test.
-- [ ] Fix config path.
+- [x] Fix config path.
 
 **other**
 
