@@ -74,7 +74,7 @@ vim.api.nvim_create_user_command(
 
 			return args
 		end,
-		desc = 'run the file contents against Velociraptor client',
+		desc = 'run the file contents against Velociraptor',
 	}
 )
 
