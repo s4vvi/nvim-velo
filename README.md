@@ -1,8 +1,13 @@
 # nvim-velo
 Neovim plugin for faster VQL (Velociraptor Query Language) development.
 
-Configuration:
+Configuration (Plug):
 ```lua
+Plug = vim.fn['plug#']
+vim.call('plug#begin', '~/.config/nvim/plugged')
+    Plug 's4vvi/nvim-velo'
+vim.call('plug#end')
+
 require('nvim-velo').setup({
     api_config_path = "/home/user/secrets/api.config.yaml", -- Absolute path w/ proper privs
     default_client_fqdn = "localhost", -- Default hostname for running client VQLs 

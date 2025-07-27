@@ -5,7 +5,7 @@
 - [x] Implement client VQL.
 - [x] Make command's more concise + cleanup.
 - [x] Refactor utils, mooore files.
-- [ ] Make it so it works w/ plug + test.
+- [x] Make it so it works w/ plug + test.
 - [x] Fix config path.
 
 **other**
